@@ -3,25 +3,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Freedom vs Evil — Strategy & Morality Game</title>
-  <meta name="description" content="A morality and strategy game scenario: how societies respond to symbolic attacks, freedom, and the presence of evil."/>
-  <meta name="keywords" content="games, strategy games, morality games, simulation, society, freedom vs evil" />
+  <title>Freedom vs Evil — Web Strategy Game</title>
+  <meta name="description" content="Play a small browser strategy game while exploring society's responses to freedom and evil."/>
+  <meta name="keywords" content="games, free online games, strategy games, morality games, web game, browser mini game" />
   <meta name="author" content="Games & Society Portal" />
 
-  <!-- Social meta -->
-  <meta property="og:title" content="Freedom vs Evil — A Strategy Game Scenario" />
-  <meta property="og:description" content="A morality and strategy game simulation exploring freedom, evil, and cultural responses." />
+  <!-- Category signals -->
   <meta property="og:type" content="game" />
   <meta property="og:site_name" content="Games & Society" />
   <meta property="og:category" content="Games" />
 
-  <!-- Schema.org JSON-LD -->
+  <!-- Schema -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "VideoGame",
-    "name": "Freedom vs Evil: A Strategy & Morality Game",
-    "description": "A web-based strategy and morality simulation about societal survival and cultural reactions.",
+    "name": "Freedom vs Evil: Web Mini Game",
+    "description": "A web strategy game and morality simulation where players must dodge evil and defend freedom.",
     "genre": "Strategy",
     "gamePlatform": "Web",
     "applicationCategory": "Game",
@@ -35,11 +33,11 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
   <style>
-    body { font-family: 'Inter', sans-serif; background: #f6f8fb; }
-    .game-logo { font-size: 2rem; background: linear-gradient(135deg,#1f6feb,#3aa0ff); color:white;
-                 width:60px;height:60px;border-radius:12px;display:flex;align-items:center;justify-content:center; }
-    .game-card { border-radius: 12px; box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
-    .timeline-dot { width:12px;height:12px;border-radius:50%;background:#1f6feb;flex:0 0 12px;margin-top:6px; }
+    body { font-family: 'Inter', sans-serif; background:#f6f8fb; }
+    .game-logo { font-size:2rem; background:linear-gradient(135deg,#1f6feb,#3aa0ff); color:white;
+      width:60px;height:60px;border-radius:12px;display:flex;align-items:center;justify-content:center; }
+    .game-card { border-radius:12px; box-shadow:0 6px 16px rgba(0,0,0,0.08); }
+    canvas { border:2px solid #1f6feb; border-radius:8px; background:#fff; display:block; margin:0 auto; }
     footer { margin-top:40px; padding:20px 0; border-top:1px solid #ddd; text-align:center; font-size:0.9rem; color:#666; }
   </style>
 </head>
@@ -50,104 +48,44 @@
     <div class="d-flex align-items-center gap-3">
       <div class="game-logo"><i class="fa-solid fa-gamepad"></i></div>
       <div>
-        <h1 class="h4 mb-0">Freedom vs Evil — Strategy Game</h1>
-        <small class="text-muted">September 14, 2025 · Game Analysis</small>
+        <h1 class="h4 mb-0">Freedom vs Evil — Play Now</h1>
+        <small class="text-muted">Web Strategy Game & Analysis</small>
       </div>
     </div>
     <div class="d-flex gap-2">
       <button class="btn btn-outline-secondary btn-sm" onclick="toggleTheme()">🌙 Theme</button>
-      <button class="btn btn-outline-secondary btn-sm" onclick="window.print()">🖨️ Print</button>
-      <a href="#" class="btn btn-primary btn-sm">▶ Play/Share</a>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Media Section -->
   <div class="row g-3 mb-4">
-    <div class="col-lg-8">
+    <div class="col-lg-6">
       <div class="p-3 bg-white game-card">
-        <h2 class="h5">Game Overview</h2>
-        <p><strong>Scenario:</strong> A symbolic assassination is modeled as a strategic opening move. Players explore how societies react — shock, retaliation, or collapse — and how values survive.</p>
-        <p class="text-muted">This analysis is framed as a <em>morality strategy game</em>, comparing Charlie’s assassination with October 7, 2023.</p>
-        <span class="badge bg-primary">Strategy</span>
-        <span class="badge bg-success">Morality Game</span>
-        <span class="badge bg-info">Simulation</span>
+        <h2 class="h6">Gameplay GIF Preview</h2>
+        <img src="https://media.giphy.com/media/xT0GqjY9XrY2z3Z0Q0/giphy.gif" alt="Game GIF" class="img-fluid rounded">
       </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-6">
       <div class="p-3 bg-white game-card">
-        <h3 class="h6">Quick Stats</h3>
-        <p><strong>Player Action:</strong> Societal Response</p>
-        <p><strong>Game Loop:</strong> Shock → Horror → Polarized Reaction</p>
+        <h2 class="h6">Gameplay Video</h2>
+        <div class="ratio ratio-16x9">
+          <iframe src="https://www.youtube.com/embed/2O9FMWudGkQ" title="Gameplay trailer" allowfullscreen></iframe>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Main Content -->
-  <div class="row g-3">
-    <div class="col-lg-8">
-      <div class="p-3 bg-white game-card">
-        <h2 class="h5">Scenario Walkthrough</h2>
-
-        <h3 class="h6 mt-3">Phase 1 — The Hit</h3>
-        <p>The assassination acts as the opening move, destabilizing the environment. In game terms: a “shock card” is played, forcing all players to react.</p>
-
-        <h3 class="h6 mt-3">Phase 2 — Moral Inversion</h3>
-        <p>Some factions celebrate the act, revealing hidden alignments. This “buffs” evil by normalizing violence as justice.</p>
-
-        <h3 class="h6 mt-3">Phase 3 — Collapse or Survival</h3>
-        <p>If trust tokens run out, society fragments into factions, risking collapse or authoritarian resets.</p>
-
-        <h3 class="h6 mt-3">Parallel Quest — October 7, 2023</h3>
-        <p>This quest mirrors the same mechanics: atrocity → shock → justifications → moral lecturing of victims.</p>
-
-        <h3 class="h6 mt-3">Game Lessons</h3>
-        <ul class="list-group mb-3">
-          <li class="list-group-item">Symbolic moves reshape the board faster than random events.</li>
-          <li class="list-group-item">Celebrating evil permanently alters alignment maps.</li>
-          <li class="list-group-item">Trust collapse leads to economic + faction breakdowns.</li>
-          <li class="list-group-item">Victimhood unlocks empathy pathways.</li>
-        </ul>
-
-        <h3 class="h6 mt-3">Game Progression</h3>
-        <div class="d-flex flex-column gap-2">
-          <div class="d-flex align-items-start gap-2">
-            <div class="timeline-dot"></div>
-            <div><strong>Phase 1:</strong> Charlie assassination — trigger event</div>
-          </div>
-          <div class="d-flex align-items-start gap-2">
-            <div class="timeline-dot bg-danger"></div>
-            <div><strong>Phase 2:</strong> October 7, 2023 — barbarian raid quest</div>
-          </div>
-          <div class="d-flex align-items-start gap-2">
-            <div class="timeline-dot bg-success"></div>
-            <div><strong>Phase 3:</strong> Reckoning — moral inversion mechanic</div>
-          </div>
-        </div>
-
-        <!-- Comments -->
-        <div class="mt-4">
-          <h3 class="h6">Game Chat (Demo)</h3>
-          <textarea class="form-control mb-2" placeholder="Share your game strategies..."></textarea>
-          <div class="d-flex gap-2">
-            <button class="btn btn-primary btn-sm" onclick="alert('Demo only — no backend.')">Post</button>
-            <button class="btn btn-secondary btn-sm" onclick="document.querySelector('textarea').value=''">Clear</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-lg-4">
-      <div class="p-3 bg-white game-card">
-        <h3 class="h6">Game Context</h3>
-        <p class="text-muted">This simulation models how societies respond to targeted attacks and how alignments shift under moral pressure.</p>
-        <p><strong>Genres:</strong> Strategy · Morality · Simulation</p>
-      </div>
-    </div>
+  <!-- Playable Game -->
+  <div class="p-3 bg-white game-card mb-4">
+    <h2 class="h5">Mini Browser Game — Dodge Evil</h2>
+    <p class="text-muted">Use arrow keys to move the blue square (freedom) and avoid the red square (evil). Survive as long as possible!</p>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <p id="score" class="mt-2 text-center fw-bold">Score: 0</p>
   </div>
 
   <!-- Footer -->
   <footer>
-    © 2025 · Games & Society Portal · Presented as a simulation
+    © 2025 · Games & Society Portal · Entertainment & Strategy Games
   </footer>
 
   <!-- Scripts -->
@@ -157,6 +95,55 @@
       document.body.classList.toggle('bg-dark');
       document.body.classList.toggle('text-white');
     }
+
+    // Mini Game Logic
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let player = {x:200, y:350, size:20, color:"#1f6feb"};
+    let enemy = {x:200, y:0, size:20, color:"red", speed:2};
+    let score = 0;
+
+    function drawSquare(obj){
+      ctx.fillStyle = obj.color;
+      ctx.fillRect(obj.x, obj.y, obj.size, obj.size);
+    }
+
+    function updateGame(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      drawSquare(player);
+      drawSquare(enemy);
+
+      // Enemy movement
+      enemy.y += enemy.speed;
+      if(enemy.y > canvas.height){
+        enemy.y = -20;
+        enemy.x = Math.random() * (canvas.width - enemy.size);
+        score++;
+        document.getElementById("score").innerText = "Score: " + score;
+        enemy.speed += 0.2; // increase difficulty
+      }
+
+      // Collision detection
+      if(player.x < enemy.x + enemy.size &&
+         player.x + player.size > enemy.x &&
+         player.y < enemy.y + enemy.size &&
+         player.y + player.size > enemy.y){
+        alert("Game Over! Final Score: " + score);
+        document.location.reload();
+      }
+
+      requestAnimationFrame(updateGame);
+    }
+
+    document.addEventListener("keydown", (e)=>{
+      if(e.key==="ArrowLeft" && player.x>0) player.x -= 20;
+      if(e.key==="ArrowRight" && player.x<canvas.width-player.size) player.x += 20;
+      if(e.key==="ArrowUp" && player.y>0) player.y -= 20;
+      if(e.key==="ArrowDown" && player.y<canvas.height-player.size) player.y += 20;
+    });
+
+    updateGame();
   </script>
 </body>
 </html>
