@@ -33,83 +33,127 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
   <style>
-    body { font-family: 'Inter', sans-serif; background:#f6f8fb; }
+    body { font-family: 'Inter', sans-serif; background:#f6f8fb; min-height:100vh; display:flex; flex-direction:column; }
+    .container-main { flex:1; }
     .game-logo { font-size:2rem; background:linear-gradient(135deg,#1f6feb,#3aa0ff); color:white;
       width:60px;height:60px;border-radius:12px;display:flex;align-items:center;justify-content:center; }
     .game-card { border-radius:12px; box-shadow:0 6px 16px rgba(0,0,0,0.08); }
     canvas { border:2px solid #1f6feb; border-radius:8px; background:#fff; display:block; margin:0 auto; }
-    footer { margin-top:40px; padding:20px 0; border-top:1px solid #ddd; text-align:center; font-size:0.9rem; color:#666; }
+    footer { margin-top:20px; padding:12px 0; border-top:1px solid #ddd; text-align:center; font-size:0.9rem; color:#666; position:relative; }
+    /* small IP box bottom-left */
+    .ip-box {
+      position:fixed;
+      left:10px;
+      bottom:10px;
+      background:rgba(255,255,255,0.95);
+      border:1px solid #e6eef8;
+      padding:8px 10px;
+      border-radius:10px;
+      box-shadow:0 6px 18px rgba(17,24,39,0.06);
+      font-size:0.82rem;
+      color:#111827;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      z-index:9999;
+      backdrop-filter: blur(4px);
+    }
+    .ip-box .muted { color:#6b7280; font-size:0.78rem; }
+    .ip-small { font-weight:700; font-family:monospace; letter-spacing:0.6px; }
+    .ip-copy { background:transparent; border:0; cursor:pointer; color:#1f6feb; padding:4px; }
+    @media (max-width:540px) {
+      .ip-box { left:6px; right:6px; justify-content:space-between; font-size:0.78rem; }
+    }
   </style>
 </head>
-<body class="container py-4">
-
-  <!-- Header -->
-  <header class="d-flex justify-content-between align-items-center mb-4">
-    <div class="d-flex align-items-center gap-3">
-      <div class="game-logo"><i class="fa-solid fa-cube"></i></div>
-      <div>
-        <h1 class="h4 mb-0">Cube Runner</h1>
-        <small class="text-muted">Free Web Arcade Game</small>
+<body>
+  <div class="container container-main py-4">
+    <!-- Header -->
+    <header class="d-flex justify-content-between align-items-center mb-4">
+      <div class="d-flex align-items-center gap-3">
+        <div class="game-logo"><i class="fa-solid fa-cube"></i></div>
+        <div>
+          <h1 class="h4 mb-0">Cube Runner</h1>
+          <small class="text-muted">Free Web Arcade Game</small>
+        </div>
       </div>
-    </div>
-    <div class="d-flex gap-2">
-      <button class="btn btn-outline-secondary btn-sm" onclick="toggleTheme()">🌙 Theme</button>
-    </div>
-  </header>
-
-  <!-- Media Section -->
-  <div class="row g-3 mb-4">
-    <div class="col-lg-6">
-      <div class="p-3 bg-white game-card">
-        <h2 class="h6">Gameplay GIF Preview</h2>
-        <img src="https://media.giphy.com/media/l41YgZhmGgR6nY8S0/giphy.gif" alt="Game GIF" class="img-fluid rounded">
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-secondary btn-sm" onclick="toggleTheme()">🌙 Theme</button>
       </div>
-    </div>
-    <div class="col-lg-6">
-      <div class="p-3 bg-white game-card">
-        <h2 class="h6">Gameplay Video</h2>
-        <div class="ratio ratio-16x9">
-          <iframe src="https://www.youtube.com/embed/8PTw2YV0NZ0" title="Gameplay trailer" allowfullscreen></iframe>
+    </header>
+
+    <!-- Media Section -->
+    <div class="row g-3 mb-4">
+      <div class="col-lg-6">
+        <div class="p-3 bg-white game-card">
+          <h2 class="h6">Gameplay GIF Preview</h2>
+          <!-- public GIF from GIPHY -->
+          <img src="https://media.giphy.com/media/l41YgZhmGgR6nY8S0/giphy.gif" alt="Game GIF" class="img-fluid rounded">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="p-3 bg-white game-card">
+          <h2 class="h6">Gameplay Video</h2>
+          <div class="ratio ratio-16x9">
+            <!-- public YouTube embed -->
+            <iframe src="https://www.youtube.com/embed/8PTw2YV0NZ0" title="Gameplay trailer" allowfullscreen></iframe>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Playable Game -->
+    <div class="p-3 bg-white game-card mb-4">
+      <h2 class="h5">Play Cube Runner</h2>
+      <p class="text-muted">Use arrow keys to move the blue square and avoid the red cube. How long can you survive?</p>
+      <canvas id="gameCanvas" width="400" height="400" aria-label="Cube Runner game canvas"></canvas>
+      <p id="score" class="mt-2 text-center fw-bold">Score: 0</p>
+    </div>
+
+    <!-- Footer main -->
+    <footer>
+      © 2025 · Games Portal · Free Online Games
+    </footer>
   </div>
 
-  <!-- Playable Game -->
-  <div class="p-3 bg-white game-card mb-4">
-    <h2 class="h5">Play Cube Runner</h2>
-    <p class="text-muted">Use arrow keys to move the blue square and avoid the red cube. How long can you survive?</p>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-    <p id="score" class="mt-2 text-center fw-bold">Score: 0</p>
+  <!-- Small IP box (public IP) -->
+  <div id="ipBox" class="ip-box" aria-live="polite" title="Your public IP address">
+    <div>
+      <div class="muted">Your IP</div>
+      <div id="ipAddr" class="ip-small">…</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <button id="copyIp" class="ip-copy" title="Copy IP to clipboard" aria-label="Copy IP"><i class="fa-regular fa-copy"></i></button>
+      <button id="refreshIp" class="ip-copy" title="Refresh IP" aria-label="Refresh IP"><i class="fa-solid fa-arrows-rotate"></i></button>
+    </div>
+    <div style="margin-left:8px" class="muted small" id="ipHint" title="Note">public</div>
   </div>
-
-  <!-- Footer -->
-  <footer>
-    © 2025 · Games Portal · Free Online Games
-  </footer>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    // Theme toggle
     function toggleTheme(){
       document.body.classList.toggle('bg-dark');
       document.body.classList.toggle('text-white');
     }
 
-    // Mini Game Logic
+    // --- Mini Game Logic (Cube Runner) ---
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
 
     let player = {x:200, y:350, size:20, color:"#1f6feb"};
-    let enemy = {x:200, y:0, size:20, color:"red", speed:2};
+    let enemy = {x:Math.random()*380, y:-20, size:20, color:"red", speed:2};
     let score = 0;
+    let running = true;
 
     function drawSquare(obj){
       ctx.fillStyle = obj.color;
-      ctx.fillRect(obj.x, obj.y, obj.size, obj.size);
+      ctx.fillRect(Math.round(obj.x), Math.round(obj.y), obj.size, obj.size);
     }
 
     function updateGame(){
+      if(!running) return;
       ctx.clearRect(0,0,canvas.width,canvas.height);
       drawSquare(player);
       drawSquare(enemy);
@@ -121,7 +165,7 @@
         enemy.x = Math.random() * (canvas.width - enemy.size);
         score++;
         document.getElementById("score").innerText = "Score: " + score;
-        enemy.speed += 0.2; // increase difficulty
+        enemy.speed += 0.15; // increase difficulty slowly
       }
 
       // Collision detection
@@ -129,8 +173,15 @@
          player.x + player.size > enemy.x &&
          player.y < enemy.y + enemy.size &&
          player.y + player.size > enemy.y){
-        alert("Game Over! Final Score: " + score);
-        document.location.reload();
+        running = false;
+        setTimeout(()=> {
+          if(confirm("Game Over! Final Score: " + score + "\n\nPlay again?")) {
+            // reset
+            player.x = 200; player.y = 350; enemy.x = Math.random()*380; enemy.y = -20; enemy.speed = 2; score = 0; running = true; updateGame();
+          } else {
+            // stop animation
+          }
+        }, 50);
       }
 
       requestAnimationFrame(updateGame);
@@ -143,7 +194,84 @@
       if(e.key==="ArrowDown" && player.y<canvas.height-player.size) player.y += 20;
     });
 
+    // start the game loop
     updateGame();
+
+    // --- IP Fetching feature ---
+    // This displays the visitor's PUBLIC IP (the IP exposed by their router to the internet).
+    // It uses public APIs (no server-side code required). If one API fails, we fallback to another.
+    const ipAddrEl = document.getElementById('ipAddr');
+    const ipHintEl = document.getElementById('ipHint');
+    const copyBtn = document.getElementById('copyIp');
+    const refreshBtn = document.getElementById('refreshIp');
+
+    async function fetchPublicIP(){
+      ipAddrEl.textContent = 'checking…';
+      ipHintEl.textContent = 'public';
+      try {
+        // Primary: ipify (simple, CORS-enabled)
+        const r1 = await fetch('https://api.ipify.org?format=json', {cache: "no-store"});
+        if(r1.ok){
+          const j1 = await r1.json();
+          if(j1 && j1.ip){
+            ipAddrEl.textContent = j1.ip;
+            return;
+          }
+        }
+        // Fallback: ipapi.co (no token required, CORS usually allowed)
+        const r2 = await fetch('https://ipapi.co/json/', {cache: "no-store"});
+        if(r2.ok){
+          const j2 = await r2.json();
+          if(j2 && (j2.ip || j2.ip_addr || j2.ipv4)){
+            ipAddrEl.textContent = j2.ip || j2.ip_addr || j2.ipv4;
+            return;
+          }
+        }
+        // Final fallback: ipwho.is
+        const r3 = await fetch('https://ipwho.is/', {cache: "no-store"});
+        if(r3.ok){
+          const j3 = await r3.json();
+          if(j3 && j3.ip){
+            ipAddrEl.textContent = j3.ip;
+            return;
+          }
+        }
+        ipAddrEl.textContent = 'unavailable';
+        ipHintEl.textContent = 'could not fetch';
+      } catch (err){
+        console.warn('IP fetch error', err);
+        ipAddrEl.textContent = 'unavailable';
+        ipHintEl.textContent = 'error';
+      }
+    }
+
+    // Copy to clipboard
+    copyBtn.addEventListener('click', async () => {
+      const txt = ipAddrEl.textContent || '';
+      if(!txt || txt === 'checking…' || txt === 'unavailable' || txt === 'error') {
+        alert('No IP available to copy.');
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(txt);
+        copyBtn.innerHTML = '<i class="fa-regular fa-square-check" style="color:green"></i>';
+        setTimeout(()=> copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i>', 1400);
+      } catch(e){
+        // fallback
+        prompt('Copy this IP:', txt);
+      }
+    });
+
+    // Refresh IP
+    refreshBtn.addEventListener('click', () => {
+      fetchPublicIP();
+    });
+
+    // Fetch on load
+    fetchPublicIP();
+
+    // Accessibility: hide the IP box from screen readers if they prefer -- but keep aria-live polite for updates.
+    // Note to site owner: showing a public IP is generally okay, but it's good practice to inform users in your privacy policy that you display/fetch their public IP.
   </script>
 </body>
 </html>
